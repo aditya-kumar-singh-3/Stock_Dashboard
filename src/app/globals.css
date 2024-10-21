@@ -2,14 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
+    --background: #1E3A8A;
     --foreground: #ededed;
   }
 }
@@ -25,3 +22,14 @@ body {
     text-wrap: balance;
   }
 }
+/* styles/globals.css */
+input[type='number'] {
+    -moz-appearance: textfield; /* For Firefox */
+}
+
+input[type='number']::-webkit-outer-spin-button,
+input[type='number']::-webkit-inner-spin-button {
+    -webkit-appearance: none; /* For Chrome, Safari, and Opera */
+    margin: 0; /* Optional: to remove any margin */
+}
+
