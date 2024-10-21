@@ -1,6 +1,6 @@
 "use client";
 import React, { ChangeEvent, useEffect, useState } from "react";
-import { IoIosArrowRoundUp } from "react-icons/io";
+
 
 interface Stock {
   symbol: string;
