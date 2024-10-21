@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 
 interface Stock {
   symbol: string;
@@ -51,7 +51,7 @@ const Content = () => {
     setFilteredStocks(sortedStocks);
   };
 
-  const handleInputChange = (e: { target: { value: any } }) => {
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setInputValue(value);
 
