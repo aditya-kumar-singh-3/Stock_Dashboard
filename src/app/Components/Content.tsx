@@ -1,5 +1,6 @@
 "use client";
 import React, { ChangeEvent, useEffect, useState } from "react";
+import { IoIosArrowRoundUp } from "react-icons/io";
 
 interface Stock {
   symbol: string;
@@ -16,7 +17,7 @@ const Content = () => {
   const [inputValue, setInputValue] = useState("");
   const [stocks, setStocks] = useState<Stock[]>([]);
   const [filteredStocks, setFilteredStocks] = useState<Stock[]>([]);
-  const [sortOrder, setSortOrder] = useState<string>("asc"); 
+  const [sortOrder, setSortOrder] = useState<string>("asc");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -38,14 +39,14 @@ const Content = () => {
 
   useEffect(() => {
     sortStocks();
-  }, [sortOrder, stocks]); 
+  }, [sortOrder, stocks]);
 
   const sortStocks = () => {
     const sortedStocks = [...filteredStocks].sort((a, b) => {
       if (sortOrder === "asc") {
-        return a.price - b.price; 
+        return a.price - b.price;
       } else {
-        return b.price - a.price; 
+        return b.price - a.price;
       }
     });
     setFilteredStocks(sortedStocks);
@@ -69,29 +70,37 @@ const Content = () => {
     setSortOrder(e.target.value);
   };
 
+  const getColor = (percentage: number) => {
+    if (percentage < 0) return "red";
+    if (percentage > 5) return "green";
+    return "white";
+  };
+
   return (
     <>
       <div>
-        <div className="flex flex-row gap-5 mt-32 w-full justify-center ">
+        <div className="flex md:flex-row flex-col gap-3 mt-32 w-full md:translate-x-20 ">
+          {" "}
           <input
             type="number"
-            placeholder="Search stocks by % change"
+            placeholder="Enter Percentage"
             value={inputValue}
             onChange={handleInputChange}
-            className="md:w-1/2 w-auto font-bold text-black p-5 md:text-xl border border-none"
-          />
+            className="md:w-64 w-64 font-bold text-black p-2 md:text-xl rounded-full px-4 shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />{" "}
           <select
             value={sortOrder}
             onChange={handleSortChange}
-            className="md:w-1/4 w-auto p-2 border border-black-400 text-black font-bold text-xl"
+            className="md:w-56 w-64 p-2 border border-black-400 focus:outline-none text-black rounded-full px-4 font-bold text-xl"
           >
-            <option value="asc">Sort by Price (Asc)</option>
-            <option value="desc">Sort by Price (Desc)</option>
-          </select>
+            {" "}
+            <option value="asc">Sort by Price (Asc)</option>{" "}
+            <option value="desc">Sort by Price (Desc)</option>{" "}
+          </select>{" "}
         </div>
       </div>
 
-      <div className="overflow-x-auto mt-20 mb-20">
+      <div className="overflow-x-auto mt-20 mb-20 md:ml-20 md:mr-20">
         <table className="min-w-full table-auto border-collapse border border-gray-400">
           <thead className="bg-blue-950">
             <tr>
@@ -107,49 +116,34 @@ const Content = () => {
             {Array.isArray(filteredStocks) && filteredStocks.length > 0 ? (
               filteredStocks.map((stock, index) => (
                 <tr key={stock.symbol} className="text-center">
-                  <td className="px-4 py-2 border"  style={{
-                      color:
-                        stock.changesPercentage < 0
-                          ? "red"
-                          : stock.changesPercentage > 5
-                          ? "green"
-                          : "white",
-                    }}>{index + 1}</td>
-                  <td className="px-4 py-2 border"  style={{
-                      color:
-                        stock.changesPercentage < 0
-                          ? "red"
-                          : stock.changesPercentage > 5
-                          ? "green"
-                          : "white",
-                    }}>{stock.name}</td>
-                  <td className="px-4 py-2 border"  style={{
-                      color:
-                        stock.changesPercentage < 0
-                          ? "red"
-                          : stock.changesPercentage > 5
-                          ? "green"
-                          : "white",
-                    }}>{stock.price}</td>
-                  <td className="px-4 py-2 border"  style={{
-                      color:
-                        stock.changesPercentage < 0
-                          ? "red"
-                          : stock.changesPercentage > 5
-                          ? "green"
-                          : "white",
-                    }}>{stock.symbol}</td>
+                  <td
+                    className="px-4 py-2 border"
+                    style={{ color: getColor(stock.changesPercentage) }}
+                  >
+                    {index + 1}
+                  </td>
+                  <td
+                    className="px-4 py-2 border"
+                    style={{ color: getColor(stock.changesPercentage) }}
+                  >
+                    {stock.name}
+                  </td>
+                  <td
+                    className="px-4 py-2 border"
+                    style={{ color: getColor(stock.changesPercentage) }}
+                  >
+                    {stock.price}
+                  </td>
+                  <td
+                    className="px-4 py-2 border"
+                    style={{ color: getColor(stock.changesPercentage) }}
+                  >
+                    {stock.symbol}
+                  </td>
                   <td className="px-4 py-2 border">{stock.marketCap}</td>
                   <td
                     className="px-4 py-2 border"
-                    style={{
-                      color:
-                        stock.changesPercentage < 0
-                          ? "red"
-                          : stock.changesPercentage > 5
-                          ? "green"
-                          : "white",
-                    }}
+                    style={{ color: getColor(stock.changesPercentage) }}
                   >
                     {stock.changesPercentage.toFixed(2)}%
                   </td>
